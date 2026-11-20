@@ -9,3 +9,5 @@ data/issuer-keys/
 evidence/*.log
 .npm-cache/
 build-progress/rightsdesk/evidence/run-*/
+data/clean-checkout/
+data/empty-template/
