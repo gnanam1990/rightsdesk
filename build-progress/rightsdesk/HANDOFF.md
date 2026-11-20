@@ -6,13 +6,14 @@ Final state: all eight modules implemented, tested locally, plus server-rendered
 - Target repository / branch: this repo, branch `devin/rightsdesk`
 - Tested SHA at handoff: `41590b5` — clean-checkout proof passed (clone → `npm ci` → 32/32 tests → typecheck 0 → demo 20 steps 0 errors → pack-check 0 errors)
 - Working tree: clean at commit time; no in-flight work
-- Completed behavior: M01–M08 all `done_local` per `STATUS.json`; 32/32 tests pass; typecheck clean; 20-step demo journey exits 0 (India IN/web/editorial allow + release + idempotent replay; GLOBAL deny; missing-controls review_required; exact-valid_until deny; case export packet)
+- Completed behavior: M01–M08 all `done_local` per `STATUS.json`; 33/33 tests pass (incl. dev-entrypoint smoke); typecheck clean; 20-step demo journey exits 0 (India IN/web/editorial allow + release + idempotent replay; GLOBAL deny; missing-controls review_required; exact-valid_until deny; case export packet)
 - Evidence paths: `tests/m0*.test.ts`; `build-progress/rightsdesk/evidence/demo-steps.json`, `decision-packet.json` (run dirs hold generated db + issuer keys, gitignored)
 - Commands & exit codes:
   - `npm install --no-audit --no-fund --cache .npm-cache` → 0 (dev deps only: typescript, @types/node)
   - `npm test` → 0 (32 pass)
   - `npm run typecheck` → 0
   - `npm run demo` → 0
+  - `npm run dev` → API + console + worker in one process (local emulator; external providers disabled); smoke-tested in tests/dev-smoke.test.ts
   - `npm run serve` (env `CHECKOUT_PROVIDER=local-emulator`, `PORT`) → API + console on :8787; `npm run worker` → outbox worker
 - Environment: Node v22.23.1 (`--experimental-strip-types`), macOS arm64, zero runtime deps (`node:sqlite`, `node:http`, `node:crypto` Ed25519, `node:test`)
 - External dependencies / missing proof: see `STATUS.json.externalDependencies` — Kite checkout, participating rights holder and external CMS are all `not_proven`; every claim in-product routes through local emulator + local issuer only. No paid calls, transfers, cloud sessions or external publication occurred.

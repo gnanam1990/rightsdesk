@@ -4,14 +4,14 @@
   "testedSha": "41590b5",
   "targetBranch": "devin/rightsdesk",
   "suite": {
-    "tests": 32,
-    "pass": 32,
+    "tests": 33,
+    "pass": 33,
     "fail": 0,
     "commands": [
       "npm test  →  node --experimental-strip-types --test 'tests/*.test.ts'  (exit 0)",
       "npm run typecheck  →  tsc --noEmit  (exit 0)",
       "npm run demo  →  scripts/demo.ts 20-step acceptance journey (exit 0)",
-      "npm run pack-check"
+      "npm run dev → scripts/dev.ts (smoke: tests/dev-smoke.test.ts)" , "npm run pack-check"
     ]
   },
   "modules": [

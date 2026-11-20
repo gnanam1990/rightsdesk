@@ -7,6 +7,8 @@ dependencies; TypeScript on Node ≥22.6 via `--experimental-strip-types`.
 
 - `npm install --no-audit --no-fund --cache .npm-cache` — dev deps only (typescript, @types/node).
   npm's default cache dir may be outside the sandbox; keep `--cache .npm-cache`.
+- `npm run dev` — one-process local stack: API + console + worker with the local
+  checkout emulator (external providers stay disabled). `PORT=0` binds a free port.
 - `npm test` — all suites (`node --test tests/*.test.ts`, type-stripped).
 - `npm run typecheck` — `tsc --noEmit`.
 - `npm run serve` — API + server-rendered console (`CHECKOUT_PROVIDER=local-emulator` for the
