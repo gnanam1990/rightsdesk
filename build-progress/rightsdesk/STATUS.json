@@ -1,7 +1,7 @@
 {
   "project": "RightsDesk",
   "packVersion": "1.0",
-  "testedSha": "c36ea0a",
+  "testedSha": "18e6208",
   "targetBranch": "devin/rightsdesk",
   "suite": {
     "tests": 33,
