@@ -9,6 +9,8 @@ import { registryRoutes } from './routes/registry.ts';
 import { offerIntentRoutes } from './routes/offers-intents.ts';
 import { purchaseRoutes } from './routes/orders-grants.ts';
 import { decisionRoutes } from './routes/decisions.ts';
+import { releaseRoutes } from './routes/releases.ts';
+import { eventRoutes } from './routes/events.ts';
 import type { CheckoutProvider } from '../providers/checkout.ts';
 import { DisabledExternalCheckout } from '../providers/checkout.ts';
 import type { LocalIssuerService } from '../providers/issuer.ts';
@@ -28,6 +30,8 @@ export function buildApp(deps: AppDeps) {
     offerIntentRoutes(deps.db),
     purchaseRoutes({ db: deps.db, checkout, issuer: deps.issuer }),
     decisionRoutes(deps.db),
+    releaseRoutes(deps.db),
+    eventRoutes(deps.db),
   ];
 
   async function handle(req: IncomingMessage, res: ServerResponse) {

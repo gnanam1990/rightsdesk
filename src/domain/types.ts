@@ -71,7 +71,7 @@ export interface DecisionRow {
 }
 export interface PublicationRow {
   id: string; buyer_org_id: string; intent_id: string; artifact_hash: string;
-  status: PublicationStatus; created_at: string;
+  artifact_asset_sha256: string | null; status: PublicationStatus; created_at: string;
 }
 export interface ReceiptRow {
   id: string; publication_id: string; artifact_hash: string; decision_id: string;

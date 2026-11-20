@@ -261,4 +261,11 @@ CREATE TABLE audit_log (
 );
 `,
   },
+  {
+    version: 2,
+    name: 'artifact_asset_on_publications',
+    sql: `
+ALTER TABLE publications ADD COLUMN artifact_asset_sha256 TEXT;
+`,
+  },
 ];
