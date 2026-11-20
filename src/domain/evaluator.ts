@@ -154,6 +154,24 @@ export function evaluate(
         `clauses require rights review: ${unknownClauses.join(', ')}`));
   }
 
+  // Rights-officer reviews may cover unknown/unsupported context — never a
+  // confirmed violation (INV-06).
+  const reviews = all<{ verdict: string; evidence_scope: string }>(db,
+    `SELECT verdict, evidence_scope FROM reviews WHERE subject_kind='intent' AND subject_id=? ORDER BY version DESC`,
+    intent.id);
+  const covered = new Set<string>();
+  for (const rv of reviews) {
+    if (rv.verdict === 'accepted') {
+      for (const s of rv.evidence_scope.split(',')) covered.add(s.trim());
+    }
+  }
+  for (const d of dims) {
+    if ((d.status === 'unknown' || d.status === 'unsupported') && covered.has(d.dimension)) {
+      d.status = 'satisfied';
+      d.detail += ' (accepted by rights-officer review)';
+    }
+  }
+
   // Result: violated beats everything; unknown/unsupported only when clean.
   const violated = dims.filter(d => d.status === 'violated');
   const gaps = dims.filter(d => d.status === 'unknown' || d.status === 'unsupported');
