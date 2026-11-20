@@ -3,6 +3,9 @@ import { openDb, type Db } from '../src/db/store.ts';
 import { seed } from '../src/seed.ts';
 import { buildApp } from '../src/api/app.ts';
 import { createSession } from '../src/api/auth.ts';
+import { LocalIssuerService } from '../src/providers/issuer.ts';
+import { LocalCheckoutEmulator, type CheckoutProvider } from '../src/providers/checkout.ts';
+import { tick, type WorkerDeps } from '../src/worker.ts';
 import { mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -14,6 +17,10 @@ export interface World {
   server: Server;
   base: string;
   keyDir: string;
+  issuer: LocalIssuerService;
+  checkout: LocalCheckoutEmulator;
+  worker: WorkerDeps;
+  runWorker: () => Promise<{ processed: number; errors: number }>;
   sessions: Record<string, string>;
   cleanup: () => void;
   // Perform an HTTP call as a named seeded role.
@@ -28,7 +35,10 @@ export function makeWorld(opts: { memoryDb?: boolean } = {}): Promise<World> {
   const dbPath = opts.memoryDb === false ? join(dir, 'rightsdesk.db') : ':memory:';
   const db = openDb(dbPath);
   seed(db, keyDir);
-  const app = buildApp({ db, keyDir });
+  const issuer = new LocalIssuerService(db, keyDir);
+  const checkout = new LocalCheckoutEmulator();
+  const worker: WorkerDeps = { db, issuer, checkout };
+  const app = buildApp({ db, keyDir, issuer, checkout });
   const server = createServer(app.handle);
   return new Promise<World>((resolve) => {
     server.listen(0, '127.0.0.1', () => {
@@ -57,6 +67,8 @@ export function makeWorld(opts: { memoryDb?: boolean } = {}): Promise<World> {
       };
       resolve({
         db, server, base: `http://127.0.0.1:${port}`, keyDir, sessions, call,
+        issuer, checkout, worker,
+        runWorker: () => tick(worker),
         cleanup: () => { server.close(); db.close(); rmSync(dir, { recursive: true, force: true }); },
       });
     });

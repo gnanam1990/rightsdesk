@@ -7,17 +7,26 @@ import { createSession, resolveUser, setSessionCookie } from './auth.ts';
 import { errorResponse, readBody, redirect, Router, type Ctx } from './http.ts';
 import { registryRoutes } from './routes/registry.ts';
 import { offerIntentRoutes } from './routes/offers-intents.ts';
+import { purchaseRoutes } from './routes/orders-grants.ts';
+import type { CheckoutProvider } from '../providers/checkout.ts';
+import { DisabledExternalCheckout } from '../providers/checkout.ts';
+import type { LocalIssuerService } from '../providers/issuer.ts';
 
 export interface AppDeps {
   db: Db;
-  issuer?: unknown;     // wired in M03
-  checkout?: unknown;   // wired in M03
+  issuer?: LocalIssuerService;
+  checkout?: CheckoutProvider;  // defaults to fail-closed external provider
   keyDir?: string;
 }
 
 // Merge route tables into one dispatcher.
 export function buildApp(deps: AppDeps) {
-  const routers: Router[] = [registryRoutes(deps.db), offerIntentRoutes(deps.db)];
+  const checkout = deps.checkout ?? new DisabledExternalCheckout();
+  const routers: Router[] = [
+    registryRoutes(deps.db),
+    offerIntentRoutes(deps.db),
+    purchaseRoutes({ db: deps.db, checkout, issuer: deps.issuer }),
+  ];
 
   async function handle(req: IncomingMessage, res: ServerResponse) {
     const started = Date.now();
