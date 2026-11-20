@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "status": "SPECIFICATION_ONLY",
+  "definitions": {
+    "functional": [
+      {
+        "id": "FR-01",
+        "title": "Rights-holder and asset registry",
+        "definition": "Implement reviewed seller enrollment, versioned keys, agreement references, tenant roles and immutable chart revisions with hashes."
+      },
+      {
+        "id": "FR-02",
+        "title": "Offer and editorial intent",
+        "definition": "Persist original terms plus a bounded machine-readable schema; collect planned purpose, channel, edition, territories, exact asset and attribution."
+      },
+      {
+        "id": "FR-03",
+        "title": "Purchase and grant acquisition",
+        "definition": "Bind buyer authorization and price cap to the offer. Integrate the supported Kite checkout with separate authenticated seller issuance and grant lookup."
+      },
+      {
+        "id": "FR-04",
+        "title": "Deterministic usage evaluator",
+        "definition": "Build a structured rule evaluator returning dimension-level evidence, explicit time bounds, support gaps and per-use decision hashes."
+      },
+      {
+        "id": "FR-05",
+        "title": "Release hook and concurrency",
+        "definition": "Integrate a local editorial CMS release surface; bind prepublish decision to artifact hash, signed grant revision and latest issuer state. Test a revoked or changed grant across release retries."
+      },
+      {
+        "id": "FR-06",
+        "title": "Newsroom review and provenance",
+        "definition": "Build asset/terms comparison, pending grant inbox, declaration of distribution controls and a versioned rights officer review for unsupported clauses."
+      },
+      {
+        "id": "FR-07",
+        "title": "Expiry, issuer updates and audit export",
+        "definition": "Process authenticated ordered status events, track expiries and impacted uses, retain verification keys and export an access-controlled decision packet."
+      },
+      {
+        "id": "FR-08",
+        "title": "Partner pilot and recovery rehearsal",
+        "definition": "Exercise the real seller and managed newsroom release hook with an approved sample. Test unknown settlement, delayed grant and loss of issuer availability; capture evidence separately per boundary."
+      }
+    ],
+    "nonfunctional": [
+      {
+        "id": "NFR-01",
+        "title": "Replayable evidence",
+        "definition": "A reviewer can reproduce the outcome from the exact input revision, actor scope, persisted decision and redacted evidence reference after a process restart."
+      }
+    ],
+    "invariants": [
+      {
+        "id": "INV-01",
+        "title": "Rights-holder and asset registry",
+        "definition": "Issuer identity and asset authority are separately recorded."
+      },
+      {
+        "id": "INV-02",
+        "title": "Offer and editorial intent",
+        "definition": "Offer revision and signed terms digest accompany the intent at approval time."
+      },
+      {
+        "id": "INV-03",
+        "title": "Purchase and grant acquisition",
+        "definition": "A payment reference cannot by itself create an active license."
+      },
+      {
+        "id": "INV-04",
+        "title": "Deterministic usage evaluator",
+        "definition": "A known incompatible dimension denies; absent decisive context can only yield review_required when no known disqualifier already applies."
+      },
+      {
+        "id": "INV-05",
+        "title": "Release hook and concurrency",
+        "definition": "Publication on the controlled route needs a current matching allow decision."
+      },
+      {
+        "id": "INV-06",
+        "title": "Newsroom review and provenance",
+        "definition": "Every reviewed outcome records authority, reviewer, rationale and evidence scope; unilateral editorial edits cannot extend a seller grant."
+      },
+      {
+        "id": "INV-07",
+        "title": "Expiry, issuer updates and audit export",
+        "definition": "Historic publication receipts remain immutable and each new use checks current issuer status."
+      },
+      {
+        "id": "INV-08",
+        "title": "Partner pilot and recovery rehearsal",
+        "definition": "A demo fixture may validate policy behavior, while a claim of having obtained rights requires a cooperating issuer and its acknowledged grant."
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "T-001",
+      "title": "Rights-holder and asset registry • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-002",
+      "title": "Rights-holder and asset registry • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-003",
+      "title": "Offer and editorial intent • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-004",
+      "title": "Offer and editorial intent • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-005",
+      "title": "Purchase and grant acquisition • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-006",
+      "title": "Purchase and grant acquisition • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-007",
+      "title": "Deterministic usage evaluator • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-008",
+      "title": "Deterministic usage evaluator • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-009",
+      "title": "Release hook and concurrency • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-010",
+      "title": "Release hook and concurrency • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-011",
+      "title": "Newsroom review and provenance • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-012",
+      "title": "Newsroom review and provenance • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-013",
+      "title": "Expiry, issuer updates and audit export • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-014",
+      "title": "Expiry, issuer updates and audit export • failure boundary",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-015",
+      "title": "Partner pilot and recovery rehearsal • expected behavior",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "T-016",
+      "title": "Partner pilot and recovery rehearsal • failure boundary",
+      "status": "NOT_RUN"
+    }
+  ],
+  "modules": [
+    {
+      "id": "M01",
+      "name": "Rights-holder and asset registry",
+      "file": "prompts/M01.md",
+      "requirements": [
+        "FR-01"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-01"
+      ],
+      "tests": [
+        "T-001",
+        "T-002"
+      ],
+      "dependsOn": [],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M02",
+      "name": "Offer and editorial intent",
+      "file": "prompts/M02.md",
+      "requirements": [
+        "FR-02"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-02"
+      ],
+      "tests": [
+        "T-003",
+        "T-004"
+      ],
+      "dependsOn": [
+        "M01"
+      ],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M03",
+      "name": "Purchase and grant acquisition",
+      "file": "prompts/M03.md",
+      "requirements": [
+        "FR-03"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-03"
+      ],
+      "tests": [
+        "T-005",
+        "T-006"
+      ],
+      "dependsOn": [
+        "M02"
+      ],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M04",
+      "name": "Deterministic usage evaluator",
+      "file": "prompts/M04.md",
+      "requirements": [
+        "FR-04"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-04"
+      ],
+      "tests": [
+        "T-007",
+        "T-008"
+      ],
+      "dependsOn": [
+        "M03"
+      ],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M05",
+      "name": "Release hook and concurrency",
+      "file": "prompts/M05.md",
+      "requirements": [
+        "FR-05"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-05"
+      ],
+      "tests": [
+        "T-009",
+        "T-010"
+      ],
+      "dependsOn": [
+        "M04"
+      ],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M06",
+      "name": "Newsroom review and provenance",
+      "file": "prompts/M06.md",
+      "requirements": [
+        "FR-06"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-06"
+      ],
+      "tests": [
+        "T-011",
+        "T-012"
+      ],
+      "dependsOn": [
+        "M05"
+      ],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M07",
+      "name": "Expiry, issuer updates and audit export",
+      "file": "prompts/M07.md",
+      "requirements": [
+        "FR-07"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-07"
+      ],
+      "tests": [
+        "T-013",
+        "T-014"
+      ],
+      "dependsOn": [
+        "M06"
+      ],
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "M08",
+      "name": "Partner pilot and recovery rehearsal",
+      "file": "prompts/M08.md",
+      "requirements": [
+        "FR-08"
+      ],
+      "nonfunctional": [
+        "NFR-01"
+      ],
+      "invariants": [
+        "INV-08"
+      ],
+      "tests": [
+        "T-015",
+        "T-016"
+      ],
+      "dependsOn": [
+        "M07"
+      ],
+      "status": "NOT_RUN"
+    }
+  ]
+}

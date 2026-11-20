@@ -1,0 +1,9 @@
+# RightsDesk · Demonstration script
+
+**Input and expected outcome.** Asset A revision 3 has hash H3. A signed grant permits one newsroom's India edition on web, editorial use, territory IN, named attribution, from 2030-01-01T00:00Z up to but excluding 2030-02-01T00:00Z. A Jan 20 controlled IN edition carrying the exact credit and H3 is allowed. A global edition is denied. A request lacking evidence of distribution controls is referred for review. Payment without the signed grant yields paid_awaiting_grant and no publish permit. At the expiry instant the old decision cannot authorize publication.
+
+**Operator surfaces.** Present the exact requested use alongside seller terms and structured dimensions. Show who attested seller authority, verified signature details, price/expiry, required attribution and the reasons for each decision. Distinguish paid-awaiting-grant from licensed. Flag copy-paste or external publication paths outside the managed release hook.
+
+**Failure to demonstrate.** Use stable checkout idempotency and record the seller payment reference. A timeout obtaining a grant triggers issuer lookup on the same order and preserves paid_awaiting_grant. Rotation retains historical public keys. Retry publication using the same decision key, requiring current grant status and intended artifact hash. Preserve audit evidence when re-evaluation changes the outcome.
+
+Create a labeled, rights-cleared sample through the import or creation UI. Identify the seeded input separately from all real actions and receipts. Record with two appropriate role sessions where required, browser refresh and worker restart. Use a final export or read-only case view tied to the input revision; show any unsupported capabilities as such. Record actual outcomes next to expected outcomes in the target repo.
