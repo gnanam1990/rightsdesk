@@ -12,6 +12,7 @@ import { decisionRoutes } from './routes/decisions.ts';
 import { releaseRoutes } from './routes/releases.ts';
 import { eventRoutes } from './routes/events.ts';
 import { reviewRoutes } from './routes/reviews.ts';
+import { exportRoutes } from './routes/export.ts';
 import type { CheckoutProvider } from '../providers/checkout.ts';
 import { DisabledExternalCheckout } from '../providers/checkout.ts';
 import type { LocalIssuerService } from '../providers/issuer.ts';
@@ -34,6 +35,7 @@ export function buildApp(deps: AppDeps) {
     releaseRoutes(deps.db),
     eventRoutes(deps.db),
     reviewRoutes(deps.db),
+    exportRoutes(deps.db),
   ];
 
   async function handle(req: IncomingMessage, res: ServerResponse) {
