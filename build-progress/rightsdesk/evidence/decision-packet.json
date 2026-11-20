@@ -1,0 +1,319 @@
+{
+  "packet_schema": "rightsdesk.packet.v1",
+  "exported_at": "2026-11-20T06:23:03.804Z",
+  "exported_by": {
+    "actor_id": "usr_officer",
+    "role": "rights_officer",
+    "org_id": "org_newsroom"
+  },
+  "intent": {
+    "id": "int_f534ec412f29e258ccc6",
+    "buyer_org_id": "org_newsroom",
+    "buyer_user_id": "usr_editor",
+    "publication_id": "pub_jan20_in",
+    "offer_id": "off_acbc7dd06f4c85905bee",
+    "offer_revision": 1,
+    "terms_sha256": "8819a694b25b28af634750ede598e642e9d41f35491403dfce97ec16b11c6a5c",
+    "asset_id": "ast_d171bb01cfe30819014a",
+    "asset_revision": 3,
+    "asset_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "edition": "IN",
+    "channel": "web",
+    "territory_set": "[\"IN\"]",
+    "purpose": "editorial",
+    "attribution_text": "Chart: Meridian Charts for The Chronicle",
+    "control_evidence_ref": "controls://edition-routing/in-only",
+    "control_evidence_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "intended_at": "2030-01-20T12:00:00.000Z",
+    "intent_hash": "913a2244c95d687b2b36e5389c49989c1ac4ad4cc59cfffbb8758b91bc3f1232",
+    "status": "grant_active",
+    "created_at": "2026-11-20T06:23:03.766Z"
+  },
+  "offer": {
+    "id": "off_acbc7dd06f4c85905bee",
+    "asset_id": "ast_d171bb01cfe30819014a",
+    "asset_revision": 3,
+    "seller_id": "sel_meridian",
+    "revision": 1,
+    "terms_text": "Meridian Charts standard chart license, schedule 1.",
+    "terms_sha256": "8819a694b25b28af634750ede598e642e9d41f35491403dfce97ec16b11c6a5c",
+    "terms_schema": {
+      "attribution": "Chart: Meridian Charts for The Chronicle",
+      "channel_set": [
+        "web"
+      ],
+      "clauses": {
+        "credit_required": true,
+        "revocable": true,
+        "sublicensing": false
+      },
+      "edition_set": [
+        "IN"
+      ],
+      "purposes": [
+        "editorial"
+      ],
+      "territory_set": [
+        "IN"
+      ],
+      "valid_from": "2030-01-01T00:00:00.000Z",
+      "valid_until": "2030-02-01T00:00:00.000Z"
+    },
+    "price_atomic": 12500,
+    "asset_symbol": "USDC",
+    "rail": "local-emulator",
+    "expires_at": "2031-01-01T00:00:00.000Z",
+    "schema_version": "rightsdesk.terms.v1",
+    "status": "published",
+    "created_at": "2026-11-20T06:23:03.765Z"
+  },
+  "seller": {
+    "id": "sel_meridian",
+    "org_id": "org_seller",
+    "agreement_ref": "AGR-2026-001",
+    "status": "verified",
+    "verified_by": "usr_operator",
+    "verified_at": "2026-11-20T06:23:03.751Z",
+    "created_at": "2026-11-20T06:23:03.735Z",
+    "keys": [
+      {
+        "key_version": 1,
+        "status": "active",
+        "created_at": "2026-11-20T06:23:03.735Z",
+        "retired_at": null
+      }
+    ]
+  },
+  "asset_revisions": [
+    {
+      "asset_id": "ast_d171bb01cfe30819014a",
+      "revision": 1,
+      "content_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "predecessor_sha256": null,
+      "registered_by": "usr_seller",
+      "created_at": "2026-11-20T06:23:03.756Z"
+    },
+    {
+      "asset_id": "ast_d171bb01cfe30819014a",
+      "revision": 2,
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "predecessor_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "registered_by": "usr_seller",
+      "created_at": "2026-11-20T06:23:03.759Z"
+    },
+    {
+      "asset_id": "ast_d171bb01cfe30819014a",
+      "revision": 3,
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "predecessor_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "registered_by": "usr_seller",
+      "created_at": "2026-11-20T06:23:03.762Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_a2782c087c9562c41f02",
+      "offer_id": "off_acbc7dd06f4c85905bee",
+      "offer_revision": 1,
+      "terms_sha256": "8819a694b25b28af634750ede598e642e9d41f35491403dfce97ec16b11c6a5c",
+      "buyer_org_id": "org_newsroom",
+      "intent_id": "int_f534ec412f29e258ccc6",
+      "approved_by": "usr_budget",
+      "price_cap_atomic": 50000,
+      "agreed_price_atomic": 12500,
+      "payment_ref": "pay_emu_1_c41f02",
+      "payment_status": "settled",
+      "checkout_provider": "local-emulator",
+      "idempotency_key": null,
+      "status": "grant_active",
+      "created_at": "2026-11-20T06:23:03.769Z"
+    }
+  ],
+  "grants": [
+    {
+      "id": "grt_cedce86f19ee7ca23185",
+      "seller_id": "sel_meridian",
+      "order_id": "ord_a2782c087c9562c41f02",
+      "buyer_org_id": "org_newsroom",
+      "asset_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "edition_set": "[\"IN\"]",
+      "channel_set": "[\"web\"]",
+      "territory_set": "[\"IN\"]",
+      "purposes": "[\"editorial\"]",
+      "attribution": "Chart: Meridian Charts for The Chronicle",
+      "valid_from": "2030-01-01T00:00:00.000Z",
+      "valid_until": "2030-02-01T00:00:00.000Z",
+      "status": "active",
+      "payload_json": "{\"schema\":\"rightsdesk.grant.v1\",\"grant_id\":\"grt_cedce86f19ee7ca23185\",\"seller_id\":\"sel_meridian\",\"order_id\":\"ord_a2782c087c9562c41f02\",\"buyer_org_id\":\"org_newsroom\",\"asset_sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"edition_set\":[\"IN\"],\"channel_set\":[\"web\"],\"territory_set\":[\"IN\"],\"purposes\":[\"editorial\"],\"attribution\":\"Chart: Meridian Charts for The Chronicle\",\"valid_from\":\"2030-01-01T00:00:00.000Z\",\"valid_until\":\"2030-02-01T00:00:00.000Z\",\"issued_at\":\"2026-11-20T06:23:03.770Z\",\"key_version\":1}",
+      "signed_payload_hash": "cbfeb6a7d1415fa0ccb4b4a393d8753cd4da7d5a1d71443fa1c797e751bcf4e4",
+      "signature": "EmnP1Q_mZANIVo4u89YwomrjDrAPRc4ZDfveRAkf3M5Fbnfw-wMddl9xzhfN5yjh934ra7ppf5_l2AgKN1SeDw",
+      "issuer_key_version": 1,
+      "status_seq": 0,
+      "issued_at": "2026-11-20T06:23:03.770Z",
+      "created_at": "2026-11-20T06:23:03.771Z",
+      "payload": {
+        "schema": "rightsdesk.grant.v1",
+        "grant_id": "grt_cedce86f19ee7ca23185",
+        "seller_id": "sel_meridian",
+        "order_id": "ord_a2782c087c9562c41f02",
+        "buyer_org_id": "org_newsroom",
+        "asset_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "edition_set": [
+          "IN"
+        ],
+        "channel_set": [
+          "web"
+        ],
+        "territory_set": [
+          "IN"
+        ],
+        "purposes": [
+          "editorial"
+        ],
+        "attribution": "Chart: Meridian Charts for The Chronicle",
+        "valid_from": "2030-01-01T00:00:00.000Z",
+        "valid_until": "2030-02-01T00:00:00.000Z",
+        "issued_at": "2026-11-20T06:23:03.770Z",
+        "key_version": 1
+      }
+    }
+  ],
+  "grant_events": [
+    {
+      "id": "gev_1aacd252572b26c55196",
+      "seller_id": "sel_meridian",
+      "grant_id": "grt_cedce86f19ee7ca23185",
+      "seq": 0,
+      "kind": "issued",
+      "new_status": "active",
+      "signature": "EmnP1Q_mZANIVo4u89YwomrjDrAPRc4ZDfveRAkf3M5Fbnfw-wMddl9xzhfN5yjh934ra7ppf5_l2AgKN1SeDw",
+      "key_version": 1,
+      "actor": "system:worker",
+      "received_at": "2026-11-20T06:23:03.771Z"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "dec_e953e1935d5fd4875d40",
+      "intent_id": "int_f534ec412f29e258ccc6",
+      "artifact_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "intent_hash": "913a2244c95d687b2b36e5389c49989c1ac4ad4cc59cfffbb8758b91bc3f1232",
+      "grant_id": "grt_cedce86f19ee7ca23185",
+      "grant_seq": 0,
+      "status_watermark": 0,
+      "policy_version": "rightsdesk.policy.v1",
+      "result": "allow",
+      "reason_codes": [],
+      "dimensions": [
+        {
+          "dimension": "grant_present",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "grant grt_cedce86f19ee7ca23185 bound to order ord_a2782c087c9562c41f02"
+        },
+        {
+          "dimension": "grant_status",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "grant is active"
+        },
+        {
+          "dimension": "grant_signature",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "signature verifies under seller key v1"
+        },
+        {
+          "dimension": "asset_hash",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "artifact carries licensed hash aaaaaaaaaaaa…"
+        },
+        {
+          "dimension": "edition",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "edition IN licensed"
+        },
+        {
+          "dimension": "channel",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "channel web licensed"
+        },
+        {
+          "dimension": "territory",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "territories [\"IN\"] within grant"
+        },
+        {
+          "dimension": "purpose",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "purpose editorial licensed"
+        },
+        {
+          "dimension": "attribution",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "required credit line matches exactly"
+        },
+        {
+          "dimension": "time_window",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "intended 2030-01-20T12:00:00.000Z within [2030-01-01T00:00:00.000Z, 2030-02-01T00:00:00.000Z)"
+        },
+        {
+          "dimension": "distribution_control",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "distribution controls declared with evidence reference"
+        },
+        {
+          "dimension": "seller_verified",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "seller sel_meridian verified by usr_operator"
+        },
+        {
+          "dimension": "terms_support",
+          "status": "satisfied",
+          "code": "ok",
+          "detail": "all machine-readable clauses supported"
+        }
+      ],
+      "decision_hash": "7d4ac8409dfce96415941c44cb5710af5a9fc7cb2b246bedaa90666bdea5c7db",
+      "evaluated_at": "2026-11-20T06:23:03.777Z",
+      "expires_at": "2030-02-01T00:00:00.000Z",
+      "actor_id": "usr_publisher"
+    }
+  ],
+  "publications": [
+    {
+      "id": "pub_e972ad9cfb6175c790c5",
+      "buyer_org_id": "org_newsroom",
+      "intent_id": "int_f534ec412f29e258ccc6",
+      "artifact_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "status": "released",
+      "created_at": "2026-11-20T06:23:03.781Z",
+      "artifact_asset_sha256": null
+    }
+  ],
+  "receipts": [
+    {
+      "id": "rec_3caa39db98abd7cc72f5",
+      "publication_id": "pub_e972ad9cfb6175c790c5",
+      "artifact_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "decision_id": "dec_e953e1935d5fd4875d40",
+      "intent_id": "int_f534ec412f29e258ccc6",
+      "actor_id": "usr_publisher",
+      "published_at": "2026-11-20T06:23:03.784Z"
+    }
+  ],
+  "reviews": [],
+  "control_declarations": [],
+  "quarantined_grants": [],
+  "packet_hash": "58eba82bd5d343b567fcba0cc5aa1e189fda5293e55fa89f71b613c49b3bf2ec"
+}

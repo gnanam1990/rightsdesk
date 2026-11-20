@@ -1,0 +1,13 @@
+node_modules/
+data/*.db
+data/*.db-*
+data/run/
+data/test-tmp/
+data/issuer-keys/
+*.local
+.DS_Store
+evidence/*.log
+.npm-cache/
+build-progress/rightsdesk/evidence/run-*/
+data/clean-checkout/
+data/empty-template/

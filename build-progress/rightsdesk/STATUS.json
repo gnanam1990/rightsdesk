@@ -1,0 +1,120 @@
+{
+  "project": "RightsDesk",
+  "packVersion": "1.0",
+  "testedSha": "18e6208",
+  "targetBranch": "devin/rightsdesk",
+  "suite": {
+    "tests": 33,
+    "pass": 33,
+    "fail": 0,
+    "commands": [
+      "npm test  →  node --experimental-strip-types --test 'tests/*.test.ts'  (exit 0)",
+      "npm run typecheck  →  tsc --noEmit  (exit 0)",
+      "npm run demo  →  scripts/demo.ts 20-step acceptance journey (exit 0)",
+      "npm run dev → scripts/dev.ts (smoke: tests/dev-smoke.test.ts)", "node scripts/browser-check.mjs → console journey in real Chromium (replay on host; sandbox blocks launch)", "npm run pack-check"
+    ]
+  },
+  "modules": [
+    {
+      "id": "M01",
+      "title": "Rights-holder and asset registry",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m01-registry.test.ts (4/4)"],
+      "evidence": ["tests/m01-registry.test.ts"],
+      "nextAction": "none"
+    },
+    {
+      "id": "M02",
+      "title": "Offer and editorial intent",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m02-offer-intent.test.ts (3/3)"],
+      "evidence": ["tests/m02-offer-intent.test.ts"],
+      "nextAction": "none"
+    },
+    {
+      "id": "M03",
+      "title": "Purchase and grant acquisition",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m03-purchase-grant.test.ts (4/4)"],
+      "evidence": ["tests/m03-purchase-grant.test.ts"],
+      "nextAction": "live Kite checkout + authenticated participating seller remain unproven (local emulator + local issuer only)"
+    },
+    {
+      "id": "M04",
+      "title": "Deterministic usage evaluator",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m04-evaluator.test.ts (4/4)"],
+      "evidence": ["tests/m04-evaluator.test.ts"],
+      "nextAction": "none"
+    },
+    {
+      "id": "M05",
+      "title": "Release hook and concurrency",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m05-release-hook.test.ts (3/3)"],
+      "evidence": ["tests/m05-release-hook.test.ts"],
+      "nextAction": "none"
+    },
+    {
+      "id": "M06",
+      "title": "Newsroom review and provenance",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m06-review.test.ts (5/5)"],
+      "evidence": ["tests/m06-review.test.ts"],
+      "nextAction": "none"
+    },
+    {
+      "id": "M07",
+      "title": "Expiry, issuer updates and audit export",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m07-expiry.test.ts (5/5)"],
+      "evidence": ["tests/m07-expiry.test.ts"],
+      "nextAction": "none"
+    },
+    {
+      "id": "M08",
+      "title": "Partner pilot and recovery rehearsal",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": ["node --test tests/m08-recovery.test.ts (4/4)"],
+      "evidence": ["tests/m08-recovery.test.ts", "build-progress/rightsdesk/evidence/demo-steps.json"],
+      "nextAction": "real rights-holder pilot requires an authenticated external seller — not available in this run"
+    },
+    {
+      "id": "UI",
+      "title": "Server-rendered role-aware console + acceptance demo",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": [
+        "npm run serve (CHECKOUT_PROVIDER=local-emulator) → /login, /console, /console/cases/{id}, /console/inbox, /console/catalog",
+        "npm run demo → build-progress/rightsdesk/evidence/demo-steps.json + decision-packet.json"
+      ],
+      "evidence": ["src/api/ui.ts", "scripts/demo.ts", "build-progress/rightsdesk/evidence/"],
+      "nextAction": "replay node scripts/browser-check.mjs on host — sandbox denies Chromium Mach-port bootstrap; see build-progress/rightsdesk/BROWSER.md"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "name": "Kite checkout / paid settlement",
+      "status": "not_proven",
+      "missing_proof": "no authenticated live checkout endpoint was exercised; LocalCheckoutEmulator is the only settling adapter; DisabledExternalCheckout fails closed"
+    },
+    {
+      "name": "Participating rights holder / real seller-issued grant payload",
+      "status": "not_proven",
+      "missing_proof": "no external seller produced an authenticated grant payload; LocalIssuerService holds test keys only; a payment receipt cannot establish rights"
+    },
+    {
+      "name": "Managed newsroom CMS / real release hook",
+      "status": "not_proven",
+      "missing_proof": "release gate is implemented and rehearsed locally; no external CMS integration was exercised"
+    }
+  ]
+}

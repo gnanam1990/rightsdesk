@@ -1,0 +1,25 @@
+{
+  "name": "rightsdesk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "RightsDesk \u2014 scoped licensing decisions for newsroom chart re-use (local build)",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test 'tests/*.test.ts'",
+    "dev": "node --experimental-strip-types scripts/dev.ts",
+    "demo": "node --experimental-strip-types scripts/demo.ts",
+    "serve": "node --experimental-strip-types src/server.ts",
+    "worker": "node --experimental-strip-types src/worker-bin.ts",
+    "pack-check": "node docs/build-pack/tools/check-build-pack.mjs --root docs/build-pack",
+    "browser-check": "node scripts/browser-check.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "playwright-core": "^1.65.1",
+    "typescript": "^5.8.0"
+  }
+}
