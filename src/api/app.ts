@@ -8,6 +8,7 @@ import { errorResponse, readBody, redirect, Router, type Ctx } from './http.ts';
 import { registryRoutes } from './routes/registry.ts';
 import { offerIntentRoutes } from './routes/offers-intents.ts';
 import { purchaseRoutes } from './routes/orders-grants.ts';
+import { decisionRoutes } from './routes/decisions.ts';
 import type { CheckoutProvider } from '../providers/checkout.ts';
 import { DisabledExternalCheckout } from '../providers/checkout.ts';
 import type { LocalIssuerService } from '../providers/issuer.ts';
@@ -26,6 +27,7 @@ export function buildApp(deps: AppDeps) {
     registryRoutes(deps.db),
     offerIntentRoutes(deps.db),
     purchaseRoutes({ db: deps.db, checkout, issuer: deps.issuer }),
+    decisionRoutes(deps.db),
   ];
 
   async function handle(req: IncomingMessage, res: ServerResponse) {

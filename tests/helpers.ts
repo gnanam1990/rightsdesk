@@ -125,6 +125,33 @@ export async function seededCatalog(w: World, termsSchema: Record<string, unknow
   return { assetId, offerId: offer.json.id as string, termsSha256: offer.json.terms_sha256 as string };
 }
 
+export const ARTIFACT_HASH = 'f'.repeat(64); // edition artifact digest fixture
+
+// Purchase one license for an intent against an existing offer.
+export async function purchaseLicense(w: World, offerId: string, intent: Record<string, unknown>) {
+  const res = await w.call('editor', 'POST', '/publication-intents', { ...intent, offer_id: offerId });
+  if (res.status !== 200) throw new Error(`intent failed: ${res.status} ${res.text}`);
+  const intentId = res.json.id as string;
+  const ord = await w.call('budget', 'POST', `/offers/${offerId}/orders`, {
+    intent_id: intentId, price_cap_atomic: 50000,
+  });
+  if (ord.status !== 200) throw new Error(`order failed: ${ord.status} ${ord.text}`);
+  const orderId = ord.json.order.id as string;
+  await w.runWorker();
+  const check = await w.call('budget', 'GET', `/orders/${orderId}`);
+  if (check.json.status !== 'grant_active') {
+    throw new Error(`grant not issued: ${check.json.status}`);
+  }
+  return { intentId, orderId, grantId: check.json.grant.id as string };
+}
+
+// Full licensed path: offer → intent → order (settled) → worker grant.
+export async function licensedCase(w: World, intent: Record<string, unknown> = INDIA_INTENT) {
+  const { assetId, offerId, termsSha256 } = await seededCatalog(w);
+  const { intentId, orderId, grantId } = await purchaseLicense(w, offerId, intent);
+  return { assetId, offerId, termsSha256, intentId, orderId, grantId };
+}
+
 export const INDIA_INTENT = {
   publication_id: 'pub_jan20_in',
   edition: 'IN',
