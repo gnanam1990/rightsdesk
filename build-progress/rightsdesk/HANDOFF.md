@@ -14,6 +14,7 @@ Final state: all eight modules implemented, tested locally, plus server-rendered
   - `npm run typecheck` → 0
   - `npm run demo` → 0
   - `npm run dev` → API + console + worker in one process (local emulator; external providers disabled); smoke-tested in tests/dev-smoke.test.ts
+  - `node scripts/browser-check.mjs` → exit 3 here (sandbox blocks Chromium launch); ready for host replay — see build-progress/rightsdesk/BROWSER.md
   - `npm run serve` (env `CHECKOUT_PROVIDER=local-emulator`, `PORT`) → API + console on :8787; `npm run worker` → outbox worker
 - Environment: Node v22.23.1 (`--experimental-strip-types`), macOS arm64, zero runtime deps (`node:sqlite`, `node:http`, `node:crypto` Ed25519, `node:test`)
 - External dependencies / missing proof: see `STATUS.json.externalDependencies` — Kite checkout, participating rights holder and external CMS are all `not_proven`; every claim in-product routes through local emulator + local issuer only. No paid calls, transfers, cloud sessions or external publication occurred.

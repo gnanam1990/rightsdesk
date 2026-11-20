@@ -11,7 +11,7 @@
       "npm test  →  node --experimental-strip-types --test 'tests/*.test.ts'  (exit 0)",
       "npm run typecheck  →  tsc --noEmit  (exit 0)",
       "npm run demo  →  scripts/demo.ts 20-step acceptance journey (exit 0)",
-      "npm run dev → scripts/dev.ts (smoke: tests/dev-smoke.test.ts)" , "npm run pack-check"
+      "npm run dev → scripts/dev.ts (smoke: tests/dev-smoke.test.ts)", "node scripts/browser-check.mjs → console journey in real Chromium (replay on host; sandbox blocks launch)", "npm run pack-check"
     ]
   },
   "modules": [
@@ -97,7 +97,7 @@
         "npm run demo → build-progress/rightsdesk/evidence/demo-steps.json + decision-packet.json"
       ],
       "evidence": ["src/api/ui.ts", "scripts/demo.ts", "build-progress/rightsdesk/evidence/"],
-      "nextAction": "visual browser proof pending user capture"
+      "nextAction": "replay node scripts/browser-check.mjs on host — sandbox denies Chromium Mach-port bootstrap; see build-progress/rightsdesk/BROWSER.md"
     }
   ],
   "externalDependencies": [

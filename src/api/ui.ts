@@ -18,7 +18,8 @@ const CSS = `
 --acc:#0d6e63;--acc-ink:#fff;--ok:#0d6e3a;--deny:#b3261e;--warn:#8a5a00;--info:#4a5568}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
 font:15px/1.5 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif}
-a{color:var(--acc)}code,.mono{font:12.5px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}
+a{color:var(--acc)}code,.mono{font:12.5px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
+overflow-wrap:anywhere;word-break:break-all}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
 textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .topbar{display:flex;align-items:center;gap:16px;background:#14161a;color:#fff;
@@ -76,7 +77,8 @@ border-radius:8px;margin-bottom:16px;font-size:14px}
 .kv dt{color:var(--mut);font-size:13px}.kv dd{margin:0}
 tr.dec-head td{background:#f7f8fa;font-weight:600}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}.topbar{flex-wrap:wrap;height:auto;
-padding:10px 16px}main{padding:18px 14px 48px}.cmp td:first-child{width:110px}}
+padding:10px 16px}main{padding:18px 14px 48px}.cmp td:first-child{width:110px}
+.card{overflow-x:auto}table{font-size:13px}td,th{padding:6px 8px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 `;
 
@@ -379,8 +381,10 @@ export function uiRouter(db: Db) {
     // ---- console form posts ----------------------------------------------
     if (req.method === 'POST' && path.startsWith('/console/cases/') && path.endsWith('/evaluate')) {
       const u = need(req, res); if (!u) return true;
-      if (!['publisher', 'rights_officer', 'operator'].includes(u.role)) throw forbidden2();
       const i = intent(path.split('/')[3]!); if (!i) throw notFound2();
+      if (!['publisher', 'rights_officer', 'operator'].includes(u.role)) {
+        redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent(`role ${u.role} cannot evaluate`)}`); return true;
+      }
       const b = await body();
       const ah = (b.artifact_hash ?? '').trim();
       if (!/^[0-9a-f]{64}$/.test(ah)) { redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent('artifact_hash must be 64 lowercase hex')}`); return true; }
@@ -394,8 +398,10 @@ export function uiRouter(db: Db) {
 
     if (req.method === 'POST' && path.startsWith('/console/cases/') && path.endsWith('/review')) {
       const u = need(req, res); if (!u) return true;
-      if (u.role !== 'rights_officer' && u.role !== 'operator') throw forbidden2();
       const i = intent(path.split('/')[3]!); if (!i) throw notFound2();
+      if (u.role !== 'rights_officer' && u.role !== 'operator') {
+        redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent(`role ${u.role} cannot record reviews`)}`); return true;
+      }
       const b = await body();
       if (!b.verdict || !b.rationale || !b.evidence_scope) {
         redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent('verdict, scope and rationale are required')}`); return true;
@@ -413,8 +419,10 @@ export function uiRouter(db: Db) {
 
     if (req.method === 'POST' && path.startsWith('/console/cases/') && path.endsWith('/controls')) {
       const u = need(req, res); if (!u) return true;
-      if (!['editor', 'rights_officer', 'operator'].includes(u.role)) throw forbidden2();
       const i = intent(path.split('/')[3]!); if (!i) throw notFound2();
+      if (!['editor', 'rights_officer', 'operator'].includes(u.role)) {
+        redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent(`role ${u.role} cannot declare controls`)}`); return true;
+      }
       const b = await body();
       if (!b.reference || !/^[0-9a-f]{64}$/.test(b.digest ?? '')) {
         redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent('reference and a 64-hex digest are required')}`); return true;
@@ -429,8 +437,10 @@ export function uiRouter(db: Db) {
 
     if (req.method === 'POST' && path.startsWith('/console/cases/') && path.endsWith('/release')) {
       const u = need(req, res); if (!u) return true;
-      if (u.role !== 'publisher' && u.role !== 'operator') throw forbidden2();
       const i = intent(path.split('/')[3]!); if (!i) throw notFound2();
+      if (u.role !== 'publisher' && u.role !== 'operator') {
+        redirect(res, `/console/cases/${i.id}?error=${encodeURIComponent(`role ${u.role} cannot release`)}`); return true;
+      }
       const b = await body();
       const ah = (b.artifact_hash ?? '').trim();
       if (!/^[0-9a-f]{64}$/.test(ah)) {
@@ -450,8 +460,10 @@ export function uiRouter(db: Db) {
 
     if (req.method === 'POST' && path.startsWith('/console/releases/') && path.endsWith('/confirm')) {
       const u = need(req, res); if (!u) return true;
-      if (u.role !== 'publisher' && u.role !== 'operator') throw forbidden2();
       const p = one<PublicationRow>(db, 'SELECT * FROM publications WHERE id=?', path.split('/')[3]!);
+      if (u.role !== 'publisher' && u.role !== 'operator') {
+        redirect(res, `/console/releases/${p ? p.id : ''}?error=${encodeURIComponent(`role ${u.role} cannot release`)}`); return true;
+      }
       if (!p) throw notFound2();
       const i = intent(p.intent_id)!;
       const out = confirmPublication(db, p, i, p.artifact_hash, p.artifact_asset_sha256, u.id);
@@ -466,5 +478,4 @@ export function uiRouter(db: Db) {
   };
 }
 
-const forbidden2 = () => new ApiError(403, 'forbidden', 'role not permitted on this surface');
 const notFound2 = () => new ApiError(404, 'not_found', 'record not found');

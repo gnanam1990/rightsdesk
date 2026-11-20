@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn, type ChildProcess } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 
 // Startup smoke: `npm run dev` must boot the real UI/API + worker on a free
@@ -23,6 +23,7 @@ function onceLine(cp: ChildProcess, match: RegExp, timeoutMs = 15_000): Promise<
 }
 
 test('dev entrypoint boots server+worker, serves UI, exits cleanly', async () => {
+  mkdirSync(TMP_ROOT, { recursive: true }); // test-order independent
   const dir = mkdtempSync(join(TMP_ROOT, 'dev-smoke-'));
   let cp: ChildProcess | undefined;
   try {
