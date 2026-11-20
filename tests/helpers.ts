@@ -73,3 +73,54 @@ export async function verifySeller(w: World) {
 export const H3 = 'a'.repeat(64); // deterministic fixture hash for Asset A rev 3
 export const H4 = 'b'.repeat(64);
 export const H2 = 'c'.repeat(64);
+export const H1 = 'd'.repeat(64);
+
+export const TERMS_TEXT = 'Meridian Charts standard chart license, schedule 1 (reference terms).';
+export const TERMS_SCHEMA = {
+  edition_set: ['IN'],
+  channel_set: ['web'],
+  territory_set: ['IN'],
+  purposes: ['editorial'],
+  attribution: 'Chart: Meridian Charts for The Chronicle',
+  valid_from: '2030-01-01T00:00:00.000Z',
+  valid_until: '2030-02-01T00:00:00.000Z',
+  clauses: { credit_required: true, sublicensing: false, revocable: true },
+};
+
+// Verified seller + chained revisions 1-3 (H3 at rev 3) + published offer.
+export async function seededCatalog(w: World, termsSchema: Record<string, unknown> = TERMS_SCHEMA) {
+  await verifySeller(w);
+  const r1 = await w.call('seller', 'POST', '/sellers/sel_meridian/assets', {
+    title: 'Chart A', revision: 1, content_sha256: H1,
+  });
+  const assetId = r1.json.asset.id as string;
+  await w.call('seller', 'POST', '/sellers/sel_meridian/assets', {
+    asset_id: assetId, revision: 2, content_sha256: H2, predecessor_sha256: H1,
+  });
+  await w.call('seller', 'POST', '/sellers/sel_meridian/assets', {
+    asset_id: assetId, revision: 3, content_sha256: H3, predecessor_sha256: H2,
+  });
+  const offer = await w.call('seller', 'POST', `/assets/${assetId}/offers`, {
+    asset_revision: 3,
+    terms_text: TERMS_TEXT,
+    terms_schema: termsSchema,
+    price_atomic: 12500,
+    asset_symbol: 'USDC',
+    rail: 'local-emulator',
+    expires_at: '2031-01-01T00:00:00.000Z',
+  });
+  if (offer.status !== 200) throw new Error(`offer failed: ${offer.status} ${offer.text}`);
+  return { assetId, offerId: offer.json.id as string, termsSha256: offer.json.terms_sha256 as string };
+}
+
+export const INDIA_INTENT = {
+  publication_id: 'pub_jan20_in',
+  edition: 'IN',
+  channel: 'web',
+  territory_set: ['IN'],
+  purpose: 'editorial',
+  attribution_text: TERMS_SCHEMA.attribution,
+  control_evidence_ref: 'controls://edition-routing/in-only',
+  control_evidence_digest: 'e'.repeat(64),
+  intended_at: '2030-01-20T12:00:00.000Z',
+};

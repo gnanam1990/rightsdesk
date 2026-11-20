@@ -43,7 +43,7 @@ export interface IntentRow {
   intended_at: string; intent_hash: string; status: string; created_at: string;
 }
 export interface OrderRow {
-  id: string; offer_id: string; offer_revision: number; buyer_org_id: string;
+  id: string; offer_id: string; offer_revision: number; terms_sha256: string; buyer_org_id: string;
   intent_id: string | null; approved_by: string; price_cap_atomic: number;
   agreed_price_atomic: number; payment_ref: string | null; payment_status: string | null;
   checkout_provider: string | null; idempotency_key: string | null;

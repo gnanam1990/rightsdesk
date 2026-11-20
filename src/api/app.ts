@@ -6,6 +6,7 @@ import type { UserRow } from '../domain/types.ts';
 import { createSession, resolveUser, setSessionCookie } from './auth.ts';
 import { errorResponse, readBody, redirect, Router, type Ctx } from './http.ts';
 import { registryRoutes } from './routes/registry.ts';
+import { offerIntentRoutes } from './routes/offers-intents.ts';
 
 export interface AppDeps {
   db: Db;
@@ -16,7 +17,7 @@ export interface AppDeps {
 
 // Merge route tables into one dispatcher.
 export function buildApp(deps: AppDeps) {
-  const routers: Router[] = [registryRoutes(deps.db)];
+  const routers: Router[] = [registryRoutes(deps.db), offerIntentRoutes(deps.db)];
 
   async function handle(req: IncomingMessage, res: ServerResponse) {
     const started = Date.now();

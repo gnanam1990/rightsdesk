@@ -108,6 +108,7 @@ CREATE TABLE orders (
   id TEXT PRIMARY KEY,
   offer_id TEXT NOT NULL,
   offer_revision INTEGER NOT NULL,
+  terms_sha256 TEXT NOT NULL,
   buyer_org_id TEXT NOT NULL,
   intent_id TEXT,
   approved_by TEXT NOT NULL,
