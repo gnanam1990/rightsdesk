@@ -1,0 +1,80 @@
+{
+  "project": "RightsDesk",
+  "packVersion": "1.0",
+  "testedSha": "52b5512",
+  "targetBranch": "devin/rightsdesk",
+  "modules": [
+    {
+      "id": "M01",
+      "title": "Rights-holder and asset registry",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Implement reviewed seller enrollment, versioned keys, agreement references, tenant roles and immutable chart revisions with hashes."
+    },
+    {
+      "id": "M02",
+      "title": "Offer and editorial intent",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Persist original terms plus a bounded machine-readable schema; collect planned purpose, channel, edition, territories, exact asset and attribution."
+    },
+    {
+      "id": "M03",
+      "title": "Purchase and grant acquisition",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Bind buyer authorization and price cap to the offer. Integrate the supported Kite checkout with separate authenticated seller issuance and grant lookup."
+    },
+    {
+      "id": "M04",
+      "title": "Deterministic usage evaluator",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Build a structured rule evaluator returning dimension-level evidence, explicit time bounds, support gaps and per-use decision hashes."
+    },
+    {
+      "id": "M05",
+      "title": "Release hook and concurrency",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Integrate a local editorial CMS release surface; bind prepublish decision to artifact hash, signed grant revision and latest issuer state. Test a revoked or changed grant across release retries."
+    },
+    {
+      "id": "M06",
+      "title": "Newsroom review and provenance",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Build asset/terms comparison, pending grant inbox, declaration of distribution controls and a versioned rights officer review for unsupported clauses."
+    },
+    {
+      "id": "M07",
+      "title": "Expiry, issuer updates and audit export",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Process authenticated ordered status events, track expiries and impacted uses, retain verification keys and export an access-controlled decision packet."
+    },
+    {
+      "id": "M08",
+      "title": "Partner pilot and recovery rehearsal",
+      "state": "pending",
+      "owner": "devin",
+      "commands": [],
+      "evidence": [],
+      "nextAction": "Exercise the real seller and managed newsroom release hook with an approved sample. Test unknown settlement, delayed grant and loss of issuer availability; capture evidence separately per boundary."
+    }
+  ]
+}

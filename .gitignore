@@ -1,0 +1,8 @@
+node_modules/
+data/*.db
+data/*.db-*
+*.local
+.DS_Store
+evidence/*.log
+.npm-cache/
+data/test-tmp/

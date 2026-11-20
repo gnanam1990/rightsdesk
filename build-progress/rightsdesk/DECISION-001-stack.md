@@ -1,0 +1,9 @@
+# Decision record — D-001 runtime stack
+
+- Date: 2026-11-20. Owner: devin. Affected modules: all (M01–M08 baseline).
+- Decision: greenfield target, no upstream code reused (SOURCES.md baselines are private/inaccessible or public-but-unrelated; interfaces implemented independently per pack guidance). Stack = TypeScript on Node 22 executed via `node --experimental-strip-types` (erasable syntax only), `node:sqlite` durable store, `node:http` API + server-rendered role console, `node:crypto` Ed25519 grant signatures, `node:test` runner. Zero runtime dependencies; dev-only deps `typescript`/`@types/node` for `tsc --noEmit`.
+- Alternatives: (a) PostgreSQL per TDD "proposed baseline" — rejected for this local proof because no managed Postgres is provisioned in this run; SQLite gives real transactions, unique constraints and restart-durable state through the same migration runner, and the TDD baseline is explicitly a proposal for a greenfield target. The storage layer is isolated behind `src/db` so a Postgres adapter remains possible. (b) Express/Fastify — rejected to keep zero runtime deps and a fully hermetic checkout. (c) Compiled TS — rejected; strip-types keeps single-source execution with no build step.
+- Dependency proof: `node --version` v22.23.1; `node -e "require('node:sqlite')"` OK; `node --experimental-strip-types` verified running .ts; `node --test '<glob>'` verified; npm install restricted to devDependencies.
+- Affected tests: all T-001..T-016 run via `npm test` (node:test).
+- Reopen conditions: a provisioned Postgres + owner approval for a runtime dependency; a Node <22.6 runtime; or a deployment target requiring compiled output.
+- External boundary: Kite checkout (`providers/checkout.ts`) and external issuer (`providers/issuer.ts`) are adapter seams. Automatic paid execution stays disabled — the local emulator is labeled non-settling test infrastructure; live Kite spend requires owner authority per KITE-AND-PROVIDERS.md.
