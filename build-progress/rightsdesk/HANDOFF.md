@@ -4,7 +4,7 @@ Initial state: greenfield dedicated repository. Pack read at intake; no prior im
 Final state: all eight modules implemented, tested locally, plus server-rendered console and scripted acceptance journey.
 
 - Target repository / branch: this repo, branch `devin/rightsdesk`
-- Tested SHA at handoff: see `git log -1` (latest: M08 + console + demo on top of `554320c`)
+- Tested SHA at handoff: `41590b5` — clean-checkout proof passed (clone → `npm ci` → 32/32 tests → typecheck 0 → demo 20 steps 0 errors → pack-check 0 errors)
 - Working tree: clean at commit time; no in-flight work
 - Completed behavior: M01–M08 all `done_local` per `STATUS.json`; 32/32 tests pass; typecheck clean; 20-step demo journey exits 0 (India IN/web/editorial allow + release + idempotent replay; GLOBAL deny; missing-controls review_required; exact-valid_until deny; case export packet)
 - Evidence paths: `tests/m0*.test.ts`; `build-progress/rightsdesk/evidence/demo-steps.json`, `decision-packet.json` (run dirs hold generated db + issuer keys, gitignored)
