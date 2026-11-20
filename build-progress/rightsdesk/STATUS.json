@@ -1,80 +1,120 @@
 {
   "project": "RightsDesk",
   "packVersion": "1.0",
-  "testedSha": "52b5512",
+  "testedSha": "554320c",
   "targetBranch": "devin/rightsdesk",
+  "suite": {
+    "tests": 32,
+    "pass": 32,
+    "fail": 0,
+    "commands": [
+      "npm test  →  node --experimental-strip-types --test 'tests/*.test.ts'  (exit 0)",
+      "npm run typecheck  →  tsc --noEmit  (exit 0)",
+      "npm run demo  →  scripts/demo.ts 20-step acceptance journey (exit 0)",
+      "npm run pack-check"
+    ]
+  },
   "modules": [
     {
       "id": "M01",
       "title": "Rights-holder and asset registry",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Implement reviewed seller enrollment, versioned keys, agreement references, tenant roles and immutable chart revisions with hashes."
+      "commands": ["node --test tests/m01-registry.test.ts (4/4)"],
+      "evidence": ["tests/m01-registry.test.ts"],
+      "nextAction": "none"
     },
     {
       "id": "M02",
       "title": "Offer and editorial intent",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Persist original terms plus a bounded machine-readable schema; collect planned purpose, channel, edition, territories, exact asset and attribution."
+      "commands": ["node --test tests/m02-offer-intent.test.ts (3/3)"],
+      "evidence": ["tests/m02-offer-intent.test.ts"],
+      "nextAction": "none"
     },
     {
       "id": "M03",
       "title": "Purchase and grant acquisition",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Bind buyer authorization and price cap to the offer. Integrate the supported Kite checkout with separate authenticated seller issuance and grant lookup."
+      "commands": ["node --test tests/m03-purchase-grant.test.ts (4/4)"],
+      "evidence": ["tests/m03-purchase-grant.test.ts"],
+      "nextAction": "live Kite checkout + authenticated participating seller remain unproven (local emulator + local issuer only)"
     },
     {
       "id": "M04",
       "title": "Deterministic usage evaluator",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Build a structured rule evaluator returning dimension-level evidence, explicit time bounds, support gaps and per-use decision hashes."
+      "commands": ["node --test tests/m04-evaluator.test.ts (4/4)"],
+      "evidence": ["tests/m04-evaluator.test.ts"],
+      "nextAction": "none"
     },
     {
       "id": "M05",
       "title": "Release hook and concurrency",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Integrate a local editorial CMS release surface; bind prepublish decision to artifact hash, signed grant revision and latest issuer state. Test a revoked or changed grant across release retries."
+      "commands": ["node --test tests/m05-release-hook.test.ts (3/3)"],
+      "evidence": ["tests/m05-release-hook.test.ts"],
+      "nextAction": "none"
     },
     {
       "id": "M06",
       "title": "Newsroom review and provenance",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Build asset/terms comparison, pending grant inbox, declaration of distribution controls and a versioned rights officer review for unsupported clauses."
+      "commands": ["node --test tests/m06-review.test.ts (5/5)"],
+      "evidence": ["tests/m06-review.test.ts"],
+      "nextAction": "none"
     },
     {
       "id": "M07",
       "title": "Expiry, issuer updates and audit export",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Process authenticated ordered status events, track expiries and impacted uses, retain verification keys and export an access-controlled decision packet."
+      "commands": ["node --test tests/m07-expiry.test.ts (5/5)"],
+      "evidence": ["tests/m07-expiry.test.ts"],
+      "nextAction": "none"
     },
     {
       "id": "M08",
       "title": "Partner pilot and recovery rehearsal",
-      "state": "pending",
+      "state": "done_local",
       "owner": "devin",
-      "commands": [],
-      "evidence": [],
-      "nextAction": "Exercise the real seller and managed newsroom release hook with an approved sample. Test unknown settlement, delayed grant and loss of issuer availability; capture evidence separately per boundary."
+      "commands": ["node --test tests/m08-recovery.test.ts (4/4)"],
+      "evidence": ["tests/m08-recovery.test.ts", "build-progress/rightsdesk/evidence/demo-steps.json"],
+      "nextAction": "real rights-holder pilot requires an authenticated external seller — not available in this run"
+    },
+    {
+      "id": "UI",
+      "title": "Server-rendered role-aware console + acceptance demo",
+      "state": "done_local",
+      "owner": "devin",
+      "commands": [
+        "npm run serve (CHECKOUT_PROVIDER=local-emulator) → /login, /console, /console/cases/{id}, /console/inbox, /console/catalog",
+        "npm run demo → build-progress/rightsdesk/evidence/demo-steps.json + decision-packet.json"
+      ],
+      "evidence": ["src/api/ui.ts", "scripts/demo.ts", "build-progress/rightsdesk/evidence/"],
+      "nextAction": "visual browser proof pending user capture"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "name": "Kite checkout / paid settlement",
+      "status": "not_proven",
+      "missing_proof": "no authenticated live checkout endpoint was exercised; LocalCheckoutEmulator is the only settling adapter; DisabledExternalCheckout fails closed"
+    },
+    {
+      "name": "Participating rights holder / real seller-issued grant payload",
+      "status": "not_proven",
+      "missing_proof": "no external seller produced an authenticated grant payload; LocalIssuerService holds test keys only; a payment receipt cannot establish rights"
+    },
+    {
+      "name": "Managed newsroom CMS / real release hook",
+      "status": "not_proven",
+      "missing_proof": "release gate is implemented and rehearsed locally; no external CMS integration was exercised"
     }
   ]
 }

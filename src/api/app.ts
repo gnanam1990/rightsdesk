@@ -16,6 +16,7 @@ import { exportRoutes } from './routes/export.ts';
 import type { CheckoutProvider } from '../providers/checkout.ts';
 import { DisabledExternalCheckout } from '../providers/checkout.ts';
 import type { LocalIssuerService } from '../providers/issuer.ts';
+import { uiRouter } from './ui.ts';
 
 export interface AppDeps {
   db: Db;
@@ -52,6 +53,8 @@ export function buildApp(deps: AppDeps) {
       for (const r of routers) {
         if (await r.dispatch(ctx)) return;
       }
+      // server-rendered console (GET /console*, /login)
+      if (await ui(req, res, ctx.body)) return;
       // built-in routes
       if (await builtin(ctx, deps)) return;
       res.writeHead(404, { 'content-type': 'application/json' });
@@ -62,6 +65,7 @@ export function buildApp(deps: AppDeps) {
       void started;
     }
   }
+  const ui = uiRouter(deps.db);
   return { handle };
 }
 

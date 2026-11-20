@@ -1,0 +1,132 @@
+[
+  {
+    "step": "verify seller",
+    "status": 200,
+    "summary": "verified"
+  },
+  {
+    "step": "asset rev1",
+    "status": 200,
+    "summary": "ast_d171bb01cfe30819014a"
+  },
+  {
+    "step": "asset rev2",
+    "status": 200,
+    "summary": {
+      "asset_id": "ast_d171bb01cfe30819014a",
+      "revision": 2,
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "predecessor_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "registered_by": "usr_seller",
+      "created_at": "2026-11-20T06:23:03.759Z"
+    }
+  },
+  {
+    "step": "asset rev3 (H3)",
+    "status": 200,
+    "summary": {
+      "asset_id": "ast_d171bb01cfe30819014a",
+      "revision": 3,
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "predecessor_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "registered_by": "usr_seller",
+      "created_at": "2026-11-20T06:23:03.762Z"
+    }
+  },
+  {
+    "step": "publish offer",
+    "status": 200,
+    "summary": {
+      "id": "off_acbc7dd06f4c85905bee",
+      "terms": "8819a694b25b28af"
+    }
+  },
+  {
+    "step": "india intent",
+    "status": 200,
+    "summary": "int_f534ec412f29e258ccc6"
+  },
+  {
+    "step": "order",
+    "status": 200,
+    "summary": "paid_awaiting_grant"
+  },
+  {
+    "step": "grant issued",
+    "status": 200,
+    "summary": {
+      "status": "grant_active",
+      "grant": "grt_cedce86f19ee7ca23185"
+    }
+  },
+  {
+    "step": "evaluate IN web editorial",
+    "status": 200,
+    "summary": "allow"
+  },
+  {
+    "step": "register release",
+    "status": 200,
+    "summary": "pub_e972ad9cfb6175c790c5"
+  },
+  {
+    "step": "release gate",
+    "status": 200,
+    "summary": {
+      "status": "released",
+      "receipt": "rec_3caa39db98abd7cc72f5"
+    }
+  },
+  {
+    "step": "release gate replay",
+    "status": 200,
+    "summary": {
+      "status": "released",
+      "replayed": true
+    }
+  },
+  {
+    "step": "global intent",
+    "status": 200,
+    "summary": "int_4bc482e48ef00bd98e83"
+  },
+  {
+    "step": "global order+grant",
+    "status": 200,
+    "summary": "grant_active"
+  },
+  {
+    "step": "evaluate GLOBAL",
+    "status": 200,
+    "summary": "deny"
+  },
+  {
+    "step": "intent w/o controls",
+    "status": 200,
+    "summary": "int_4101a28c55aac7284735"
+  },
+  {
+    "step": "evaluate missing controls",
+    "status": 200,
+    "summary": "review_required"
+  },
+  {
+    "step": "case export",
+    "status": 200,
+    "summary": {
+      "hash": "58eba82bd5d343b5",
+      "grants": 1,
+      "decisions": 1
+    }
+  },
+  {
+    "step": "intent at exact expiry",
+    "status": 200,
+    "summary": "int_be69c239cd58eabe84d9"
+  },
+  {
+    "step": "evaluate at valid_until (exclusive)",
+    "status": 200,
+    "summary": "deny"
+  }
+]

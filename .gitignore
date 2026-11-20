@@ -1,8 +1,11 @@
 node_modules/
 data/*.db
 data/*.db-*
+data/run/
+data/test-tmp/
+data/issuer-keys/
 *.local
 .DS_Store
 evidence/*.log
 .npm-cache/
-data/test-tmp/
+build-progress/rightsdesk/evidence/run-*/

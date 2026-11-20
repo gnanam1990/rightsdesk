@@ -6,6 +6,34 @@ import type { DecisionRow, IntentRow } from '../../domain/types.ts';
 import { audit, requireRole } from '../auth.ts';
 import { forbidden, notFound, Router } from '../http.ts';
 
+// Persist an evaluation as an immutable decision record; identical inputs
+// (intent, artifact, grant revision) replay the stored row.
+export function persistDecision(
+  db: Db, intent: IntentRow, artifactHash: string,
+  ev: ReturnType<typeof evaluate>, actorId: string,
+): DecisionRow {
+  return tx(db, () => {
+    const existing = one<DecisionRow>(db,
+      `SELECT * FROM decisions WHERE intent_id=? AND artifact_hash=?
+       AND grant_id IS ? AND grant_seq IS ?`,
+      intent.id, artifactHash, ev.grant_id, ev.grant_seq);
+    if (existing) return existing;
+    const id = rid('dec');
+    db.prepare(`INSERT INTO decisions (id, intent_id, artifact_hash, intent_hash, grant_id,
+        grant_seq, status_watermark, policy_version, result, reason_codes, dimensions,
+        decision_hash, evaluated_at, expires_at, actor_id)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+      .run(id, intent.id, artifactHash, intent.intent_hash, ev.grant_id, ev.grant_seq,
+        ev.status_watermark, ev.policy_version, ev.result, JSON.stringify(ev.reason_codes),
+        JSON.stringify(ev.dimensions), ev.decision_hash, ev.time_window.evaluated_at,
+        ev.expires_at, actorId);
+    audit(db, actorId, 'decision.evaluated', {
+      subjectKind: 'intent', subjectId: intent.id, reasonCode: ev.reason_codes[0],
+    });
+    return one<DecisionRow>(db, 'SELECT * FROM decisions WHERE id=?', id)!;
+  });
+}
+
 export function decisionRoutes(db: Db): Router {
   const r = new Router();
 
@@ -31,27 +59,7 @@ export function decisionRoutes(db: Db): Router {
     const artifactAsset = optString(b.artifact_asset_sha256, 'artifact_asset_sha256', 64);
 
     const ev = evaluate(db, intent, artifactHash, artifactAsset, now());
-
-    const decision = tx(db, () => {
-      const existing = one<DecisionRow>(db,
-        `SELECT * FROM decisions WHERE intent_id=? AND artifact_hash=?
-         AND grant_id IS ? AND grant_seq IS ?`,
-        intent.id, artifactHash, ev.grant_id, ev.grant_seq);
-      if (existing) return existing;
-      const id = rid('dec');
-      db.prepare(`INSERT INTO decisions (id, intent_id, artifact_hash, intent_hash, grant_id,
-          grant_seq, status_watermark, policy_version, result, reason_codes, dimensions,
-          decision_hash, evaluated_at, expires_at, actor_id)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
-        .run(id, intent.id, artifactHash, intent.intent_hash, ev.grant_id, ev.grant_seq,
-          ev.status_watermark, ev.policy_version, ev.result, JSON.stringify(ev.reason_codes),
-          JSON.stringify(ev.dimensions), ev.decision_hash, ev.time_window.evaluated_at,
-          ev.expires_at, u.id);
-      audit(db, u.id, 'decision.evaluated', {
-        subjectKind: 'intent', subjectId: intent.id, reasonCode: ev.reason_codes[0],
-      });
-      return one<DecisionRow>(db, 'SELECT * FROM decisions WHERE id=?', id)!;
-    });
+    const decision = persistDecision(db, intent, artifactHash, ev, u.id);
     return { decision, evaluation: ev };
   });
 
