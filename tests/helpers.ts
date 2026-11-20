@@ -22,19 +22,21 @@ export interface World {
   worker: WorkerDeps;
   runWorker: () => Promise<{ processed: number; errors: number }>;
   sessions: Record<string, string>;
+  dir: string;
   cleanup: () => void;
   // Perform an HTTP call as a named seeded role.
   call: (role: string | null, method: string, path: string, body?: unknown, headers?: Record<string, string>) =>
     Promise<{ status: number; json: any; text: string }>;
 }
 
-export function makeWorld(opts: { memoryDb?: boolean } = {}): Promise<World> {
+export function makeWorld(opts: { memoryDb?: boolean; dir?: string; seedDb?: boolean } = {}): Promise<World> {
   mkdirSync(TMP_ROOT, { recursive: true });
-  const dir = mkdtempSync(join(TMP_ROOT, 'rightsdesk-test-'));
+  const ownsDir = !opts.dir;
+  const dir = opts.dir ?? mkdtempSync(join(TMP_ROOT, 'rightsdesk-test-'));
   const keyDir = join(dir, 'issuer-keys');
-  const dbPath = opts.memoryDb === false ? join(dir, 'rightsdesk.db') : ':memory:';
+  const dbPath = opts.memoryDb === false || opts.dir ? join(dir, 'rightsdesk.db') : ':memory:';
   const db = openDb(dbPath);
-  seed(db, keyDir);
+  if (opts.seedDb !== false) seed(db, keyDir);
   const issuer = new LocalIssuerService(db, keyDir);
   const checkout = new LocalCheckoutEmulator();
   const worker: WorkerDeps = { db, issuer, checkout };
@@ -69,7 +71,11 @@ export function makeWorld(opts: { memoryDb?: boolean } = {}): Promise<World> {
         db, server, base: `http://127.0.0.1:${port}`, keyDir, sessions, call,
         issuer, checkout, worker,
         runWorker: () => tick(worker),
-        cleanup: () => { server.close(); db.close(); rmSync(dir, { recursive: true, force: true }); },
+        cleanup: () => {
+          server.close(); db.close();
+          if (ownsDir) rmSync(dir, { recursive: true, force: true });
+        },
+        dir,
       });
     });
   });
