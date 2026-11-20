@@ -238,24 +238,30 @@ try {
   check('editor sees no evaluate/release form',
     !epText.includes('Register release artifact') && await ep.locator('#ah').count() === 0);
   check('editor sees controls declaration form', await ep.locator('#cr').count() === 1);
-  const deniedPost = await ep.evaluate(async (id) => {
-    const r = await fetch(`/console/cases/${id}/evaluate`, {
-      method: 'POST', redirect: 'manual',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      body: `artifact_hash=${'f'.repeat(64)}`,
-    });
-    return { status: r.status, loc: r.headers.get('location') };
-  }, indiaIntent);
+  // A direct POST is refused and the refusal is visible: the 303 sends the
+  // user back to the case with an error banner. Same-origin fetch with
+  // redirect:'manual' would see only an opaque redirect — use the context's
+  // request API to observe the real response, then follow it in the page.
+  const deniedPost = await ed.request.post(`${base}/console/cases/${indiaIntent}/evaluate`, {
+    form: { artifact_hash: 'f'.repeat(64) }, maxRedirects: 0,
+  });
+  const deniedLoc = deniedPost.headers()['location'] ?? '';
   check('editor evaluate attempt refused visibly',
-    deniedPost.status === 303 && decodeURIComponent(deniedPost.loc ?? '').includes('cannot evaluate'),
-    `→ ${deniedPost.status} ${(deniedPost.loc ?? '').slice(0, 70)}`);
+    deniedPost.status() === 303 && decodeURIComponent(deniedLoc).includes('cannot evaluate'),
+    `→ ${deniedPost.status()} ${deniedLoc.slice(0, 80)}`);
+  if (deniedLoc) {
+    await ep.goto(`${base}${deniedLoc}`);
+    check('refusal shown in-page after redirect',
+      (await ep.locator('.err').textContent())?.includes('cannot evaluate'));
+  }
 
   // 320px task check: queue → case link reachable by Tab, decision readable.
   const mob = await browser.newContext({ viewport: { width: 320, height: 640 } });
   const mp = await mob.newPage();
-  // Reuse publisher session cookie for the mobile context.
+  // Reuse the publisher session cookie for the mobile context — url XOR
+  // domain/path is required, so keep only name/value/url.
   const cookies = await desk.cookies();
-  await mob.addCookies(cookies.map(c => ({ ...c, url: base })));
+  await mob.addCookies(cookies.map(c => ({ name: c.name, value: c.value, url: base })));
   await mp.goto(`${base}/console`);
   check('320px queue shows case link',
     await mp.locator(`a[href="/console/cases/${indiaIntent}"]`).isVisible());
